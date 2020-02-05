@@ -33,7 +33,7 @@
     var marker ;
     var pos;
 
-
+    //initMap() inizializza la mappa dandole i valori iniziali, impostando il centro mappa, il tipo.
     function initMap() {
       map = new google.maps.Map(document.getElementById('map'),
         {
@@ -45,6 +45,10 @@
               'styled_map']
           }
         });
+        /*con il ciclo if sottostante si vuole impostare la dark mode cioè la modalità oscura che 
+        funzionerà solo al "calare" del sole 
+        esso prende come parametro l'orario attuale del dispositivo se l'if si verifica allora la dark mode
+        viene attivata, in caso contrario no */ 
         if (time < 7|| time >= 18) {
 
 var styledMapType = new google.maps.StyledMapType(
@@ -133,7 +137,7 @@ var styledMapType = new google.maps.StyledMapType(
 } else {
 var styledMapType = new google.maps.StyledMapType('ROADMAP');
 }
-
+//traffucLayer fa visualizzare sulla mappa il traffico in tempo reale
 var trafficLayer = new google.maps.TrafficLayer();
 trafficLayer.setMap(map);
 if (style == 'styled_map') {
@@ -141,14 +145,14 @@ map.mapTypes.set('styled_map', styledMapType);
 map.setMapTypeId('styled_map');
 }
 
-
+// l'if sottostante permette di geolocalizzare la posizione attuale del dispositivo 
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
           pos = {
             lat: position.coords.latitude,
             lng: position.coords.longitude
           };
-
+          // creo marker
           marker = new google.maps.Marker({
             position: pos,
             map: map,
@@ -156,7 +160,7 @@ map.setMapTypeId('styled_map');
             title: 'Veicoli!',
             icon : 'George.png'
           });
-
+         //imposto il centro della mappa usando la posizione acquisita dalla geolocalizzazione
           map.setCenter(pos);
 
         },
@@ -171,45 +175,31 @@ map.setMapTypeId('styled_map');
 
       geocoder = new google.maps.Geocoder();
     }
-    delete marker
+    /*la funzione autoUpdate() serve per determinare la posizione in tempo reale 
+    e aggiornata ogni 0,5 secondi*/
     function autoUpdate() {
       navigator.geolocation.getCurrentPosition(function (position) {
         pos = new google.maps.LatLng(position.coords.latitude,
           position.coords.longitude);
-
-       
-          // Marker already created - Move it
+          //definisce dove il marker dovrà posizionarsi
           marker.setPosition(pos);
         
 
-        // Center the map on the new position
+        //definisce il centro della mappa
         map.setCenter(pos);
       });
 
-      // Call the autoUpdate() function every 5 seconds
+      // chiama la funzione autoUpdate() ogni 0,5 secondi
       setTimeout(autoUpdate, 500);
     }
 
     autoUpdate();
-
-
-
-
-    // Try HTML5 geolocation.
-
-
-
-
-
-
-
+   //restituisce un errore a schermo stile popUp se la geolocalizzazione non può avvenire
     function handleLocationError(browserHasGeolocation, pos) {
 
-      alert("Error: The Geolocation service failed. Error: Your browser doesn\'t support geolocation.")
+      alert("Error: The Geolocation service failed. Error: Your browser doesn\'t support geolocation. Error: Location is not enable")
 
     }
-   /* setInterval(initMap, delay)
-     setInterval(geocoding, delay)*/
   </script>
   <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCICl7-atM3cXnN_Wuf5XypbIblTTRgopw&callback=initMap">
