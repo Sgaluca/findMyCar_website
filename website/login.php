@@ -23,7 +23,7 @@
 	</form>
 	<?php
 	//$con = new mysqli("sgarlato.luca.tave.osdb.it", "c92_UserProgetto", "ProgettoBello01", "c92_Progetto"); --> da usare a scuola
-	$con = new mysqli("localhost", "root", "", "progetto");
+	$con = new mysqli("2.36.178.21", "user", "userpsw001", "progetto");
 	if ($con->connect_errno) {
 		echo "errore di connessione al Database";
 		exit();
