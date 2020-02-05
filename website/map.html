@@ -177,17 +177,10 @@ map.setMapTypeId('styled_map');
         pos = new google.maps.LatLng(position.coords.latitude,
           position.coords.longitude);
 
-        if (marker) {
+       
           // Marker already created - Move it
           marker.setPosition(pos);
-        }
-        else {
-          // Marker does not exist - Create it
-          marker = new google.maps.Marker({
-            position: pos,
-            map: map
-          });
-        }
+        
 
         // Center the map on the new position
         map.setCenter(pos);
